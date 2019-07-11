@@ -203,9 +203,11 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource
       result.notImplemented();
     }
 	
+
+ GeoFenceListener fenceListenter = new GeoFenceListener() {
     //创建回调监听
    @Override
-   public void onGeoFenceCreateFinished(List<GeoFence> geoFenceList, int errorCode, String s) {
+   public void onGeoFenceCreateFinished(List<GeoFence> geoFenceList,int errorCode,String s) {
         if (errorCode == GeoFence.ADDGEOFENCE_SUCCESS) {
             for (GeoFence fence : geoFenceList) {
                 //Log.e(TAG, "fenid:" + fence.getFenceId() + " customID:" + s + " " + fenceMap.containsKey(fence.getFenceId()));
@@ -223,9 +225,11 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource
 			result.success(errorCode);
         }
     }
+};	
+
+mGeoFenceClient.setGeoFenceListener(fenceListenter);//设置回调监听
 	
-	
-  private BroadcastReceiver mGeoFenceReceiver = new BroadcastReceiver() {
+ BroadcastReceiver mGeoFenceReceiver = new BroadcastReceiver() {
 	@Override
 	public void onReceive(Context context, Intent intent) {     
 	  // 接收广播
@@ -274,6 +278,8 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource
 	  }
 	}
   };  
+  
+  
 }
 
   public void drawFenceToMap() {
