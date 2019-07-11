@@ -8,12 +8,32 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import com.amap.api.fence.GeoFenceClient;
 import com.amap.api.location.DPoint;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.fence.GeoFenceListener;
 import com.amap.api.fence.GeoFence;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.SupportMapFragment;
+import com.amap.api.maps.UiSettings;
+import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.maps.model.BitmapDescriptor;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.LocationSource;
+import com.amap.api.maps.model.Circle;
+import com.amap.api.maps.model.CircleOptions;
+import com.amap.api.maps.model.Polygon;
+import com.amap.api.maps.model.PolygonOptions;
+
 
 import android.os.Message;
 import android.os.Handler;
@@ -27,21 +47,28 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.graphics.Color;
 
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 
-/** FlutterPluginAmapPlugin */
-public class FlutterPluginAmapPlugin implements MethodCallHandler,GeoFenceListener {
 
- private Registrar registrar;	
+
+/** FlutterPluginAmapPlugin */
+public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource,GeoFenceListener {
+
+  private Registrar registrar;	
 	// 地理围栏客户端
- private GeoFenceClient mGeoFenceClient = null;
- private static final String GEOFENCE_BROADCAST_ACTION = "com.example.flutter_plugin_amap";
- 
+  private GeoFenceClient mGeoFenceClient = null;
+  private static final String GEOFENCE_BROADCAST_ACTION = "com.example.flutter_plugin_amap";
+  private AMap mAMap;
+    // 记录已经添加成功的围栏
+  private volatile ConcurrentMap<String, GeoFence> fenceMap = new ConcurrentHashMap<String, GeoFence>();  
+  private ConcurrentMap mCustomEntitys;
+  
   private Context getApplicationContext(){
         return registrar.activity().getApplicationContext();
-   }
+  }
  	
   /** Plugin registration. */
   public static void registerWith(Registrar registrar) {
@@ -54,6 +81,8 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,GeoFenceListen
 	   String method = call.method;
 	   
 	if ("onCreate".equals(method)) {
+		setUpMapIfNeeded();
+		mCustomEntitys = new ConcurrentHashMap<String, Object>();
         mGeoFenceClient = new GeoFenceClient(getApplicationContext());
 		mGeoFenceClient.setActivateAction(GeoFenceClient.GEOFENCE_IN | GeoFenceClient.GEOFENCE_STAYED | GeoFenceClient.GEOFENCE_OUT)；
 		mGeoFenceClient.createPendingIntent(GEOFENCE_BROADCAST_ACTION);
@@ -174,6 +203,28 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,GeoFenceListen
       result.notImplemented();
     }
 	
+    //创建回调监听
+   @Override
+   public void onGeoFenceCreateFinished(List<GeoFence> geoFenceList, int errorCode, String s) {
+        if (errorCode == GeoFence.ADDGEOFENCE_SUCCESS) {
+            for (GeoFence fence : geoFenceList) {
+                //Log.e(TAG, "fenid:" + fence.getFenceId() + " customID:" + s + " " + fenceMap.containsKey(fence.getFenceId()));
+                fenceMap.putIfAbsent(fence.getFenceId(), fence);
+            }
+            //Log.e(TAG, "回调添加成功个数:" + geoFenceList.size());
+            //Log.e(TAG, "回调添加围栏个数:" + fenceMap.size());
+            
+			result.success(geoFenceList);
+			drawFenceToMap();
+			
+           // Log.e(TAG, "添加围栏成功！！");
+        } else {
+           
+			result.success(errorCode);
+        }
+    }
+	
+	
   private BroadcastReceiver mGeoFenceReceiver = new BroadcastReceiver() {
 	@Override
 	public void onReceive(Context context, Intent intent) {     
@@ -215,14 +266,63 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,GeoFenceListen
 		  sb.append(" fenceId: " + fenceId);
 		}
 		String str = sb.toString();
-		Message msg = Message.obtain();
-		msg.obj = str;
-		msg.what = 2;
-		result.success(msg);	
+		//Message msg = Message.obtain();
+		//msg.obj = str;
+		//msg.what = 2;
+		result.success(str);	
 	  
 	  }
 	}
-  };
-  
-  
+  };  
+}
+
+  public void drawFenceToMap() {
+        Iterator iter = fenceMap.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            String key = (String) entry.getKey();
+            GeoFence val = (GeoFence) entry.getValue();
+            if (!mCustomEntitys.containsKey(key)) {
+               // Log.d("LG", "添加围栏:" + key);
+                drawFence(val);
+            }
+        }
+    } 
+
+ private void drawFence(GeoFence fence) {
+        drawCircle(fence);
+ }	
+ 
+  private void drawCircle(GeoFence fence) {
+        CircleOptions option = new CircleOptions();
+        option.fillColor(mContext.getResources().getColor(R.color.fill));
+        option.strokeColor(mContext.getResources().getColor(R.color.stroke));
+        option.strokeWidth(4);
+        option.radius(fence.getRadius());
+        DPoint dPoint = fence.getCenter();
+        option.center(new LatLng(dPoint.getLatitude(), dPoint.getLongitude()));
+        Circle circle = mAMap.addCircle(option);
+        mCustomEntitys.put(fence.getFenceId(), circle);
+    }
+
+  private void setUpMapIfNeeded() {
+        if (mAMap == null) {
+            mAMap = ((SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map)).getMap();
+            UiSettings uiSettings = mAMap.getUiSettings();
+            if (uiSettings != null) {
+                uiSettings.setRotateGesturesEnabled(false);
+                uiSettings.setMyLocationButtonEnabled(true); // 设置默认定位按钮是否显示
+            }
+            mAMap.setLocationSource(this);// 设置定位监听
+            mAMap.setMyLocationStyle(
+                    new MyLocationStyle().radiusFillColor(Color.argb(0, 0, 0, 0))
+                            .strokeColor(Color.argb(0, 0, 0, 0)).myLocationIcon(BitmapDescriptorFactory.fromResource(R.mipmap.navi_map_gps_locked)));
+            mAMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+            // 设置定位的类型为定位模式 ，可以由定位、跟随或地图根据面向方向旋转几种
+            mAMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
+            mAMap.moveCamera(CameraUpdateFactory.zoomTo(13));
+        }
+    }
+
 }
