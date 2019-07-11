@@ -84,7 +84,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource
 		setUpMapIfNeeded();
 		mCustomEntitys = new ConcurrentHashMap<String, Object>();
         mGeoFenceClient = new GeoFenceClient(getApplicationContext());
-		mGeoFenceClient.setActivateAction(GeoFenceClient.GEOFENCE_IN | GeoFenceClient.GEOFENCE_STAYED | GeoFenceClient.GEOFENCE_OUT)；
+		mGeoFenceClient.setActivateAction(GeoFenceClient.GEOFENCE_IN | GeoFenceClient.GEOFENCE_STAYED | GeoFenceClient.GEOFENCE_OUT);
 		mGeoFenceClient.createPendingIntent(GEOFENCE_BROADCAST_ACTION);
 		mGeoFenceClient.setGeoFenceListener(this);
 		
@@ -129,7 +129,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource
 		//设置中心点经度
 		centerPoint.setLongitude(latitude);
 		
-		float aroundRadius = Float.parseFloat(argsMap.get("aroundRadius"))
+		float aroundRadius = Float.parseFloat(argsMap.get("aroundRadius"));
 		
        
 		String s_size = argsMap.get("size");
@@ -148,7 +148,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource
 		String keyword = argsMap.get("keyword");
         String customId = argsMap.get("customId");
 		
-        mGeoFenceClient.addGeoFence(String keyword, String customId)；	
+        mGeoFenceClient.addGeoFence(keyword, customId);	
 
       //  result.success("createAdministrativearea");		
 	}
@@ -168,7 +168,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource
 		//设置中心点经度
 		centerPoint.setLongitude(latitude);		
 		
-		float radius = Float.parseFloat(argsMap.get("radius"))
+		float radius = Float.parseFloat(argsMap.get("radius"));
         String customId = argsMap.get("customId");
 		
         mGeoFenceClient.addGeoFence(centerPoint, radius,  customId);	
