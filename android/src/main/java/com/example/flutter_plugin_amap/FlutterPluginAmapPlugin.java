@@ -192,9 +192,10 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler {
 	else {
       result.notImplemented();
     }
-	
+  
+}
 
- GeoFenceListener fenceListenter = new GeoFenceListener() {
+  GeoFenceListener fenceListenter = new GeoFenceListener() {
     //创建回调监听
    @Override
    public void onGeoFenceCreateFinished(List<GeoFence> geoFenceList,int errorCode,String s) {
@@ -206,13 +207,13 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler {
             //Log.e(TAG, "回调添加成功个数:" + geoFenceList.size());
             //Log.e(TAG, "回调添加围栏个数:" + fenceMap.size());
             
-			result.success(geoFenceList);
+			//result.success(geoFenceList);
 			drawFenceToMap();
 			
            // Log.e(TAG, "添加围栏成功！！");
         } else {
            
-			result.success(errorCode);
+			//result.success(errorCode);
         }
     }
 };	
@@ -263,14 +264,12 @@ mGeoFenceClient.setGeoFenceListener(fenceListenter);//设置回调监听
 		//Message msg = Message.obtain();
 		//msg.obj = str;
 		//msg.what = 2;
-		result.success(str);	
+	//	result.success(str);	
 	  
 	  }
 	}
   };  
   
-  
-}
 
   public void drawFenceToMap() {
         Iterator iter = fenceMap.entrySet().iterator();
