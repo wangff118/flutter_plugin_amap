@@ -36,7 +36,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':diagnose:locdiagnoselib')
     implementation 'com.amap.api:location:latest.integration'
     implementation 'com.amap.api:3dmap:latest.integration'
 }
