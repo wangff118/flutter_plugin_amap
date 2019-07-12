@@ -34,6 +34,7 @@ import com.amap.api.maps.model.Circle;
 import com.amap.api.maps.model.CircleOptions;
 import com.amap.api.maps.model.Polygon;
 import com.amap.api.maps.model.PolygonOptions;
+import com.amap.map3d.demo.R;
 
 
 
@@ -297,7 +298,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource
   private void drawCircle(GeoFence fence) {
         CircleOptions option = new CircleOptions();
         option.fillColor(mContext.getResources().getColor(Color.argb(163, 118, 212, 243)));
-        option.strokeColor(mContext.getResources().getColor(Color.argb(180, 63, 145, 252)));
+        option.strokeColor(mContext.getResources().getColor(Color.argb(180, 63, 145, 252));
         option.strokeWidth(4);
         option.radius(fence.getRadius());
         DPoint dPoint = fence.getCenter();
@@ -310,7 +311,8 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource
 
   private void setUpMapIfNeeded() {
         if (mAMap == null) {
-            mAMap = mMapView.getMap();
+            mAMap = ((SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map)).getMap();
             UiSettings uiSettings = mAMap.getUiSettings();
             if (uiSettings != null) {
                 uiSettings.setRotateGesturesEnabled(false);
