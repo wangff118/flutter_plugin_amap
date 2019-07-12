@@ -58,7 +58,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 
 /** FlutterPluginAmapPlugin */
-public class FlutterPluginAmapPlugin implements MethodCallHandler, GeoFenceListener{
+public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource, GeoFenceListener{
 
   private Registrar registrar;	
 	// 地理围栏客户端
@@ -310,8 +310,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler, GeoFenceListe
 
   private void setUpMapIfNeeded() {
         if (mAMap == null) {
-            mAMap = ((SupportMapFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.map)).getMap();
+            mAMap = mMapView.getMap();
             UiSettings uiSettings = mAMap.getUiSettings();
             if (uiSettings != null) {
                 uiSettings.setRotateGesturesEnabled(false);
