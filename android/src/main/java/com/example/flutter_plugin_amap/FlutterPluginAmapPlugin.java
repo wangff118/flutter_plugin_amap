@@ -35,7 +35,7 @@ import com.amap.api.maps.model.CircleOptions;
 import com.amap.api.maps.model.Polygon;
 import com.amap.api.maps.model.PolygonOptions;
 
-
+import android.R;
 import android.os.Message;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -64,10 +64,12 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler, GeoFenceListe
   private GeoFenceClient mGeoFenceClient = null;
   private static final String GEOFENCE_BROADCAST_ACTION = "com.example.flutter_plugin_amap";
   private AMap mAMap;
+  private MapView mMapView;
     // 记录已经添加成功的围栏
   private volatile ConcurrentMap<String, GeoFence> fenceMap = new ConcurrentHashMap<String, GeoFence>();  
   private ConcurrentMap mCustomEntitys;
-   private Context mContext;
+  private Context mContext;
+  
   
   private Context getApplicationContext(){
 	    mContext = registrar.activity().getApplicationContext();
