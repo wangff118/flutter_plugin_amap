@@ -34,8 +34,6 @@ import com.amap.api.maps.model.Circle;
 import com.amap.api.maps.model.CircleOptions;
 import com.amap.api.maps.model.Polygon;
 import com.amap.api.maps.model.PolygonOptions;
-import com.amap.map3d.demo.R;
-
 
 
 import android.os.Message;
@@ -59,7 +57,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 
 /** FlutterPluginAmapPlugin */
-public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource, GeoFenceListener{
+public class FlutterPluginAmapPlugin implements MethodCallHandler, GeoFenceListener{
 
   private Registrar registrar;	
 	// 地理围栏客户端
@@ -87,6 +85,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource
 	   String method = call.method;
 	   
 	if ("onCreate".equals(method)) {
+		setContentView(R.layout.activity_main);
 		setUpMapIfNeeded();
 		mCustomEntitys = new ConcurrentHashMap<String, Object>();
         mGeoFenceClient = new GeoFenceClient(getApplicationContext());
@@ -318,7 +317,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource
                 uiSettings.setRotateGesturesEnabled(false);
                 uiSettings.setMyLocationButtonEnabled(true); // 设置默认定位按钮是否显示
             }
-            mAMap.setLocationSource(this);// 设置定位监听
+           // mAMap.setLocationSource(this);// 设置定位监听
             mAMap.setMyLocationStyle(
                     new MyLocationStyle().radiusFillColor(Color.argb(0, 0, 0, 0))
                             .strokeColor(Color.argb(0, 0, 0, 0)).myLocationIcon(BitmapDescriptorFactory.fromResource(R.mipmap.navi_map_gps_locked)));
