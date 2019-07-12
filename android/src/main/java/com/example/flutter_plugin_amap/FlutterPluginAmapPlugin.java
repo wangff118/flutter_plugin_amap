@@ -35,7 +35,8 @@ import com.amap.api.maps.model.CircleOptions;
 import com.amap.api.maps.model.Polygon;
 import com.amap.api.maps.model.PolygonOptions;
 
-import android.R;
+//import android.R;
+import com.joe.ditudemo.R
 import android.os.Message;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -88,7 +89,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler, GeoFenceListe
 	   
 	if ("onCreate".equals(method)) {
 		//setContentView(R.layout.activity_main);
-		mMapView = (MapView) findViewById(R.id.map);
+		mMapView = (MapView)findViewById(R.id.map);
 		setUpMapIfNeeded();
 		mCustomEntitys = new ConcurrentHashMap<String, Object>();
         mGeoFenceClient = new GeoFenceClient(getApplicationContext());
