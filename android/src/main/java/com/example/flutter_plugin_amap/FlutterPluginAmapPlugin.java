@@ -297,7 +297,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler, GeoFenceListe
   private void drawCircle(GeoFence fence) {
         CircleOptions option = new CircleOptions();
         option.fillColor(mContext.getResources().getColor(Color.argb(163, 118, 212, 243)));
-        option.strokeColor(mContext.getResources().getColor(Color.argb(180, 63, 145, 252));
+        option.strokeColor(mContext.getResources().getColor(Color.argb(180, 63, 145, 252)));
         option.strokeWidth(4);
         option.radius(fence.getRadius());
         DPoint dPoint = fence.getCenter();
