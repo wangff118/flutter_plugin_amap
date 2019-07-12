@@ -22,6 +22,7 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.fence.GeoFenceListener;
 import com.amap.api.fence.GeoFence;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.MapView;
 import com.amap.api.maps.SupportMapFragment;
 import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.MyLocationStyle;
@@ -33,6 +34,7 @@ import com.amap.api.maps.model.Circle;
 import com.amap.api.maps.model.CircleOptions;
 import com.amap.api.maps.model.Polygon;
 import com.amap.api.maps.model.PolygonOptions;
+
 
 
 import android.os.Message;
@@ -48,6 +50,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.graphics.Color;
+
 
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
@@ -65,8 +68,10 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler, GeoFenceListe
     // 记录已经添加成功的围栏
   private volatile ConcurrentMap<String, GeoFence> fenceMap = new ConcurrentHashMap<String, GeoFence>();  
   private ConcurrentMap mCustomEntitys;
+   private Context mContext;
   
   private Context getApplicationContext(){
+	    mContext = registrar.activity().getApplicationContext();
         return registrar.activity().getApplicationContext();
   }
  	
@@ -90,7 +95,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler, GeoFenceListe
 		
 	    IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 		filter.addAction(GEOFENCE_BROADCAST_ACTION);
-        registerReceiver(mGeoFenceReceiver, filter);
+        mContext.registerReceiver(mGeoFenceReceiver, filter);
     } 
 	//1.根据关键字创建POI围栏
     else if (call.method.equals("createPOIkeyword")) {
@@ -291,8 +296,8 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler, GeoFenceListe
  
   private void drawCircle(GeoFence fence) {
         CircleOptions option = new CircleOptions();
-        option.fillColor(mContext.getResources().getColor(R.color.fill));
-        option.strokeColor(mContext.getResources().getColor(R.color.stroke));
+        option.fillColor(mContext.getResources().getColor(Color.argb(163, 118, 212, 243)));
+        option.strokeColor(mContext.getResources().getColor(Color.argb(180, 63, 145, 252));
         option.strokeWidth(4);
         option.radius(fence.getRadius());
         DPoint dPoint = fence.getCenter();
@@ -300,6 +305,8 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler, GeoFenceListe
         Circle circle = mAMap.addCircle(option);
         mCustomEntitys.put(fence.getFenceId(), circle);
     }
+	
+	
 
   private void setUpMapIfNeeded() {
         if (mAMap == null) {
