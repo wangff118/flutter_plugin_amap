@@ -55,7 +55,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 
 /** FlutterPluginAmapPlugin */
-public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource,GeoFenceListener {
+public class FlutterPluginAmapPlugin implements MethodCallHandler {
 
   private Registrar registrar;	
 	// 地理围栏客户端
@@ -86,7 +86,6 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource
         mGeoFenceClient = new GeoFenceClient(getApplicationContext());
 		mGeoFenceClient.setActivateAction(GeoFenceClient.GEOFENCE_IN | GeoFenceClient.GEOFENCE_STAYED | GeoFenceClient.GEOFENCE_OUT);
 		mGeoFenceClient.createPendingIntent(GEOFENCE_BROADCAST_ACTION);
-		mGeoFenceClient.setGeoFenceListener(this);
 		
 	    IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 		filter.addAction(GEOFENCE_BROADCAST_ACTION);
@@ -176,6 +175,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource
       //  result.success("createRoundFence");			
 	}
 	//5.创建自定义围栏 --  多边形围栏
+	/**
     else if (call.method.equals("createPolygonalFence")) {  
         Object arguments = call.arguments;
 	    HashMap<String, String> argsMap = (HashMap<String, String>) arguments;
@@ -186,18 +186,8 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler,LocationSource
 	    mGeoFenceClient.addGeoFence(points, customId);
 		
 	//	result.success("createPolygonalFence");	
-    }//6.创建并设置PendingIntent
-    else if (call.method.equals("createPolygonalFence")) {  
-        Object arguments = call.arguments;
-	    HashMap<String, String> argsMap = (HashMap<String, String>) arguments;
-		
-		ArrayList<LatLng> points = (ArrayList<LatLng>) argsMap.get("points");
-	 
-	    String customId = argsMap.get("customId");
-	    mGeoFenceClient.addGeoFence(points, customId);
-		
-	//	result.success("createPolygonalFence");	
-    }
+    }*/
+	
 
 	else {
       result.notImplemented();

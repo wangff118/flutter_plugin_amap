@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 class FlutterPluginAmap {
   static const MethodChannel _channel =
       const MethodChannel('flutter_plugin_amap');
+  String resultInfo = "";
+  
 
   static Future<String> get platformVersion async {
     final String version = await _channel.invokeMethod('getPlatformVersion');
@@ -13,7 +15,7 @@ class FlutterPluginAmap {
 
   /// 创建地理围栏对象
   static void onCreate() async{
-    await _channel.invokeMethod('onCreate');
+    final String resultInfo = await _channel.invokeMethod('onCreate');
   }
 
   /// 根据关键字创建POI围栏
@@ -25,7 +27,7 @@ class FlutterPluginAmap {
       'size': '$size',
       'customId': '$customId'
     };
-    await  _channel.invokeMethod('createPOIkeyword', argsMap);
+    final String resultInfo = await  _channel.invokeMethod('createPOIkeyword', argsMap);
   }
 
   /// 根据经纬度进行周边搜索创建POI围栏
@@ -40,7 +42,7 @@ class FlutterPluginAmap {
       'size': '$size',
       'customId': '$customId'
     };
-    await  _channel.invokeMethod('createPOIPoint', argsMap);
+    final String resultInfo = await  _channel.invokeMethod('createPOIPoint', argsMap);
   }
 
   /// 创建行政区划围栏
@@ -49,7 +51,7 @@ class FlutterPluginAmap {
       'keyword': '$keyword',
       'customId': '$customId'
     };
-    await  _channel.invokeMethod('createAdministrativearea', argsMap);
+    final String resultInfo = await  _channel.invokeMethod('createAdministrativearea', argsMap);
   }
 
   /// 创建自定义围栏 --  圆形围栏
@@ -60,16 +62,7 @@ class FlutterPluginAmap {
       'radius': '$radius',
       'customId': '$customId'
     };
-    await  _channel.invokeMethod('createRoundFence', argsMap);
-  }
-
-  ///创建自定义围栏 --  多边形围栏
-  static void createPolygonalFence(List<LatLng> points, String customId) async{// List<int>> files
-    Map argsMap = <String, dynamic>{
-      'points':points,
-      'customId': '$customId'
-    };
-    await  _channel.invokeMethod('createPolygonalFence', argsMap);
+    final String resultInfo = await  _channel.invokeMethod('createRoundFence', argsMap);
   }
 
 
