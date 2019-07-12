@@ -41,13 +41,18 @@
 
     <application>
 
-        <!-- 设置key
-        <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="${AMAP_KEY}"/> -->
-        <!-- 定位需要的服务 -->
-        <service android:name="com.amap.api.location.APSService">
-        </service>
+        <!-- 高德导航activity -->
+        <activity
+            android:name="com.amap.api.navi.AmapRouteActivity"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+
+        <!-- 高德离线下载activity -->
+        <activity android:name="com.amap.api.maps.offlinemap.OfflineMapActivity"
+            android:screenOrientation="portrait"  />
+
+        <service android:name="com.amap.api.location.APSService"/>
 
     </application>
 
