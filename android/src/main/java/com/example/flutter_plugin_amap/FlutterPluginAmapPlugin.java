@@ -313,7 +313,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler, GeoFenceListe
 
   private void setUpMapIfNeeded() {
         if (mAMap == null) {
-            mAMap =  mMapView.getMap();;
+            mAMap =  mMapView.getMap();
             UiSettings uiSettings = mAMap.getUiSettings();
             if (uiSettings != null) {
                 uiSettings.setRotateGesturesEnabled(false);
@@ -322,7 +322,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler, GeoFenceListe
            // mAMap.setLocationSource(this);// 设置定位监听
             mAMap.setMyLocationStyle(
                     new MyLocationStyle().radiusFillColor(Color.argb(0, 0, 0, 0))
-                            .strokeColor(Color.argb(0, 0, 0, 0)).myLocationIcon(BitmapDescriptorFactory.fromResource(R.mipmap.navi_map_gps_locked)));
+                            .strokeColor(Color.argb(0, 0, 0, 0)).myLocationIcon(BitmapDescriptorFactory.fromResource(R.drawable.gps_point)));
             mAMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
             // 设置定位的类型为定位模式 ，可以由定位、跟随或地图根据面向方向旋转几种
             mAMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
