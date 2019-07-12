@@ -87,7 +87,8 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler, GeoFenceListe
 	   String method = call.method;
 	   
 	if ("onCreate".equals(method)) {
-		setContentView(R.layout.activity_main);
+		//setContentView(R.layout.activity_main);
+		mMapView = (MapView) findViewById(R.id.map);
 		setUpMapIfNeeded();
 		mCustomEntitys = new ConcurrentHashMap<String, Object>();
         mGeoFenceClient = new GeoFenceClient(getApplicationContext());
@@ -312,8 +313,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler, GeoFenceListe
 
   private void setUpMapIfNeeded() {
         if (mAMap == null) {
-            mAMap = ((SupportMapFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.map)).getMap();
+            mAMap =  mMapView.getMap();;
             UiSettings uiSettings = mAMap.getUiSettings();
             if (uiSettings != null) {
                 uiSettings.setRotateGesturesEnabled(false);
