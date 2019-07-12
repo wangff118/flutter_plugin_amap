@@ -55,7 +55,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 
 /** FlutterPluginAmapPlugin */
-public class FlutterPluginAmapPlugin implements MethodCallHandler {
+public class FlutterPluginAmapPlugin implements MethodCallHandler, GeoFenceListener{
 
   private Registrar registrar;	
 	// 地理围栏客户端
@@ -84,6 +84,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler {
 		setUpMapIfNeeded();
 		mCustomEntitys = new ConcurrentHashMap<String, Object>();
         mGeoFenceClient = new GeoFenceClient(getApplicationContext());
+		mGeoFenceClient.setGeoFenceListener(this);
 		mGeoFenceClient.setActivateAction(GeoFenceClient.GEOFENCE_IN | GeoFenceClient.GEOFENCE_STAYED | GeoFenceClient.GEOFENCE_OUT);
 		mGeoFenceClient.createPendingIntent(GEOFENCE_BROADCAST_ACTION);
 		
@@ -195,7 +196,7 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler {
   
 }
 
-  GeoFenceListener fenceListenter = new GeoFenceListener() {
+ // GeoFenceListener fenceListenter = new GeoFenceListener() {
     //创建回调监听
    @Override
    public void onGeoFenceCreateFinished(List<GeoFence> geoFenceList,int errorCode,String s) {
@@ -216,9 +217,9 @@ public class FlutterPluginAmapPlugin implements MethodCallHandler {
 			//result.success(errorCode);
         }
     }
-};	
+//};	
 
-mGeoFenceClient.setGeoFenceListener(fenceListenter);//设置回调监听
+//mGeoFenceClient.setGeoFenceListener(fenceListenter);//设置回调监听
 	
  BroadcastReceiver mGeoFenceReceiver = new BroadcastReceiver() {
 	@Override
