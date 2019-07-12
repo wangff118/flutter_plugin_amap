@@ -35,8 +35,8 @@ import com.amap.api.maps.model.CircleOptions;
 import com.amap.api.maps.model.Polygon;
 import com.amap.api.maps.model.PolygonOptions;
 
-//import android.R;
-import com.joe.ditudemo.R
+import android.R;
+//import com.joe.ditudemo.R
 import android.os.Message;
 import android.os.Handler;
 import android.text.TextUtils;

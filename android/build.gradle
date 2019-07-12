@@ -22,6 +22,11 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
     compileSdkVersion 28
 
     defaultConfig {
@@ -34,10 +39,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.amap.api:location:latest.integration'
-    compile 'com.amap.api:3dmap:latest.integration'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':diagnose:locdiagnoselib')
+    implementation 'com.amap.api:location:latest.integration'
+    implementation 'com.amap.api:3dmap:latest.integration'
 }
 
 
