@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:amap_base_navi/amap_base_navi.dart';
+//import 'package:amap_base_navi/amap_base_navi.dart';
 import 'package:flutter/services.dart';
 
 class FlutterPluginAmap {
