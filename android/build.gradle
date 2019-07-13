@@ -36,6 +36,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:25.0.1'
     implementation 'com.amap.api:location:latest.integration'
     implementation 'com.amap.api:3dmap:latest.integration'
 }
