@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 class FlutterPluginAmap {
   static const MethodChannel _channel =
-      const MethodChannel('flutter_plugin_amap');
+      const MethodChannel('flutter_plugin_amap.example.com/geofence_amap');
   String resultInfo = "";
   
 

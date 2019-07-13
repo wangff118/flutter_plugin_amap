@@ -81,7 +81,7 @@ public class FlutterPluginAmapPlugin extends Activity  implements MethodCallHand
  	
   /** Plugin registration. */
   public static void registerWith(Registrar registrar) {
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "flutter_plugin_amap");
+    final MethodChannel channel = new MethodChannel(registrar.messenger(), "flutter_plugin_amap.example.com/geofence_amap");
     channel.setMethodCallHandler(new FlutterPluginAmapPlugin());
   }
 
