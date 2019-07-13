@@ -72,6 +72,7 @@ public class FlutterPluginAmapPlugin extends Activity  implements MethodCallHand
   private volatile ConcurrentMap<String, GeoFence> fenceMap = new ConcurrentHashMap<String, GeoFence>();  
   private ConcurrentMap mCustomEntitys;
   private Context mContext;
+  private final MethodChannel channel;
 
 
   
