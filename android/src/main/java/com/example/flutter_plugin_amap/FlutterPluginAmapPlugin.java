@@ -74,10 +74,10 @@ public class FlutterPluginAmapPlugin extends Activity  implements MethodCallHand
   private Context mContext;
   
   
-  private Context getApplicationContext(){
-	    mContext = registrar.activity().getApplicationContext();
-        return registrar.activity().getApplicationContext();
-  }
+ // private Context getApplicationContext(){
+	    //mContext = registrar.activity().getApplicationContext();
+        //return registrar.activity().getApplicationContext();
+  //}
  	
   /** Plugin registration. */
   public static void registerWith(Registrar registrar) {
@@ -101,7 +101,7 @@ public class FlutterPluginAmapPlugin extends Activity  implements MethodCallHand
 		
 	    IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 		filter.addAction(GEOFENCE_BROADCAST_ACTION);
-        mContext.registerReceiver(mGeoFenceReceiver, filter);
+        registerReceiver(mGeoFenceReceiver, filter);
     } 
 	//1.根据关键字创建POI围栏
     else if (call.method.equals("createPOIkeyword")) {
