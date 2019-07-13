@@ -23,6 +23,12 @@ apply plugin: 'com.android.library'
 
 android {
 
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
     compileSdkVersion 28
 
     defaultConfig {
@@ -35,9 +41,9 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.amap.api:location:latest.integration'
-    implementation 'com.amap.api:3dmap:latest.integration'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.amap.api:location:latest.integration'
+    compile 'com.amap.api:3dmap:latest.integration'
 }
 
 
