@@ -67,7 +67,7 @@ public class FlutterPluginAmapPlugin extends Activity  implements MethodCallHand
   private GeoFenceClient mGeoFenceClient = null;
   private static final String GEOFENCE_BROADCAST_ACTION = "com.example.flutter_plugin_amap";
   private AMap mAMap;
-  //private MapView mMapView;
+  private MapView mMapView;
     // 记录已经添加成功的围栏
   private volatile ConcurrentMap<String, GeoFence> fenceMap = new ConcurrentHashMap<String, GeoFence>();  
   private ConcurrentMap mCustomEntitys;
@@ -91,7 +91,7 @@ public class FlutterPluginAmapPlugin extends Activity  implements MethodCallHand
 	   
 	if ("onCreate".equals(method)) {
 		setContentView(R.layout.activity_main);
-		//mMapView = (MapView)findViewById(R.id.map);
+		mMapView = (MapView)findViewById(R.id.map);
 		setUpMapIfNeeded();
 		mCustomEntitys = new ConcurrentHashMap<String, Object>();
         mGeoFenceClient = new GeoFenceClient(getApplicationContext());
@@ -316,8 +316,7 @@ public class FlutterPluginAmapPlugin extends Activity  implements MethodCallHand
 
   private void setUpMapIfNeeded() {
         if (mAMap == null) {
-            mAMap = ((SupportMapFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.map)).getMap();
+            mAMap =  mMapView.getMap();
             UiSettings uiSettings = mAMap.getUiSettings();
             if (uiSettings != null) {
                 uiSettings.setRotateGesturesEnabled(false);
