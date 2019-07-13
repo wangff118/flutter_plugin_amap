@@ -37,7 +37,7 @@ import com.amap.api.maps.model.PolygonOptions;
 
 //import android.R;
 //import com.joe.ditudemo.R
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.FlutterPluginAmapPlugin;
 import android.os.Message;
 import android.os.Handler;
 import android.text.TextUtils;
