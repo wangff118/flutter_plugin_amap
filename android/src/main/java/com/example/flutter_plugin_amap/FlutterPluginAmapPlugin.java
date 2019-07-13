@@ -37,7 +37,8 @@ import com.amap.api.maps.model.PolygonOptions;
 
 //import android.R;
 //import com.joe.ditudemo.R
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
+//import android.support.v7.app.AppCompatActivity;
 import android.os.Message;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -59,7 +60,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 
 /** FlutterPluginAmapPlugin */
-public class FlutterPluginAmapPlugin extends AppCompatActivity implements MethodCallHandler, GeoFenceListener{
+public class FlutterPluginAmapPlugin extends Activity  implements MethodCallHandler, GeoFenceListener{
 
   private Registrar registrar;	
 	// 地理围栏客户端
