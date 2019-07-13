@@ -72,18 +72,20 @@ public class FlutterPluginAmapPlugin extends Activity  implements MethodCallHand
   private volatile ConcurrentMap<String, GeoFence> fenceMap = new ConcurrentHashMap<String, GeoFence>();  
   private ConcurrentMap mCustomEntitys;
   private Context mContext;
+
+
   
-  
- // private Context getApplicationContext(){
-	    //mContext = registrar.activity().getApplicationContext();
-        //return registrar.activity().getApplicationContext();
-  //}
- 	
-  /** Plugin registration. */
   public static void registerWith(Registrar registrar) {
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "flutter_plugin_amap.example.com/geofence_amap");
-    channel.setMethodCallHandler(new FlutterPluginAmapPlugin());
+    final FlutterPluginAmapPlugin instance = new FlutterPluginAmapPlugin(registrar);
   }
+  
+  FlutterPluginAmapPlugin(Registrar r){
+    this.registrar = r;
+    this.channel = new MethodChannel(registrar.messenger(), "flutter_plugin_amap.example.com/geofence_amap");
+    channel.setMethodCallHandler(this);
+  }
+ 	
+  
 
   @Override
   public void onMethodCall(MethodCall call, Result result) {  
